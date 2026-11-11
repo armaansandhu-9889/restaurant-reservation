@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tablewise | Restaurant Reservation & Waitlist</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Tablewise</h1>
+      <p>Reserve a table. If we are full, we hold your place in line.</p>
+    </div>
+    <button id="theme" type="button" class="ghost">Dark mode</button>
+  </header>
+
+  <!-- Live numbers for the selected date and time -->
+  <section class="stats" aria-label="Summary">
+    <div class="stat"><b id="sFree">0</b><span>Tables free at this time</span></div>
+    <div class="stat"><b id="sBook">0</b><span>Bookings this day</span></div>
+    <div class="stat"><b id="sWait">0</b><span>Waiting this day</span></div>
+    <div class="stat"><b id="sGuests">0</b><span>Guests this day</span></div>
+  </section>
+
+  <main>
+    <!-- 1. Booking form (also used for editing) -->
+    <section class="card">
+      <h2>Book a table</h2>
+      <p id="editNote" class="editnote" hidden>You are editing an existing booking.</p>
+      <form id="form" novalidate>
+        <label>Name <input id="name" type="text" placeholder="Your full name"></label>
+        <label>Phone <input id="phone" type="tel" placeholder="10-digit number"></label>
+        <div class="row">
+          <label>Date <input id="date" type="date"></label>
+          <label>Time <select id="slot"></select></label>
+        </div>
+        <label>Guests <input id="party" type="number" min="1" max="8" value="2"></label>
+        <label>Special request (optional) <input id="notes" type="text" maxlength="80" placeholder="Birthday, window seat, high chair"></label>
+        <button id="submitBtn" type="submit" class="primary">Reserve table</button>
+        <button id="cancelEdit" type="button" class="ghost full" hidden>Stop editing</button>
+      </form>
+      <p id="msg" role="status"></p>
+    </section>
+
+    <!-- 2. Live floor plan -->
+    <section class="card">
+      <h2>Tables on <span id="when"></span></h2>
+      <div id="floor" class="floor"></div>
+      <p class="legend"><span class="dot free"></span>Free <span class="dot taken"></span>Booked</p>
+    </section>
+
+    <!-- 3. Printable confirmation slip -->
+    <section id="slip" class="card wide slip" hidden>
+      <h2>Confirmation slip</h2>
+      <dl id="slipBody"></dl>
+      <button id="printBtn" type="button" class="ghost">Print slip</button>
+    </section>
+
+    <!-- 4. Staff view -->
+    <section class="card wide">
+      <div class="bar">
+        <div class="tabs">
+          <button class="tab active" data-tab="bookings">Bookings (<span id="bc">0</span>)</button>
+          <button class="tab" data-tab="waitlist">Waitlist (<span id="wc">0</span>)</button>
+          <button class="tab" data-tab="activityList">Activity</button>
+        </div>
+        <div class="filters">
+          <input id="search" type="search" placeholder="Search by name">
+          <input id="dateFilter" type="date" aria-label="Filter by date">
+          <button id="clearFilter" type="button" class="ghost">Clear</button>
+        </div>
+      </div>
+      <ul id="bookings" class="list"></ul>
+      <ul id="waitlist" class="list" hidden></ul>
+      <ul id="activityList" class="list" hidden></ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>Demo tools for testing</p>
+    <button id="demoBtn" type="button" class="ghost">Fill all but one table</button>
+    <button id="resetBtn" type="button" class="ghost danger">Reset all data</button>
+  </footer>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>
